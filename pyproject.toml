@@ -14,4 +14,5 @@ dev = [
     "openmeteo-requests>=1.7.5",
     "openmeteo-sdk>=1.26.0",
     "pyarrow>=24.0.0",
+    "python-dotenv>=1.2.2",
 ]
