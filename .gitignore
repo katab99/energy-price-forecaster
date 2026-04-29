@@ -12,4 +12,4 @@ wheels/
 /data
 .env
 notes.md
-
+.DS_Store
