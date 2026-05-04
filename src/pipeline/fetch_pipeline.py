@@ -1,7 +1,7 @@
 import pandas as pd
 
-from get_energy_data import get_entsoe_data
-from get_weather_data import get_weather_data
+from data_sources.energy import get_entsoe_data
+from data_sources.weather import get_weather_data
 
 
 def main():
