@@ -38,25 +38,3 @@ def get_weather_data(url, params: dict, attribute: str) -> list:
     # is this an attribute? maybe I should give a better name
     specs = params[attribute]
     return [extract_response(response, specs) for response in responses]
-
-
-url = "https://historical-forecast-api.open-meteo.com/v1/forecast"
-
-
-params = {
-    "latitude": -56.0,
-    "longitude": 9.5,
-    "start_date": "2026-04-24",
-    "end_date": "2026-04-25",
-    "hourly": [
-        "temperature_2m",
-        "wind_speed_100m",
-        "direct_radiation",
-        "diffuse_radiation",
-        "cloud_cover",
-        "relative_humidity_2m",
-    ],
-}
-
-df = get_weather_data(url, params, "hourly")
-print(df)

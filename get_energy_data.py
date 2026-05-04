@@ -26,13 +26,3 @@ def get_entsoe_data(
     )
 
     return df
-
-
-start = pd.Timestamp("20260425", tz="Europe/Copenhagen")
-end = pd.Timestamp("20260426", tz="Europe/Copenhagen")
-country_code = "DK_1"
-
-assert isinstance(start, pd.Timestamp)
-assert isinstance(end, pd.Timestamp)
-
-df = get_entsoe_data(country_code, start, end)
