@@ -25,4 +25,6 @@ def get_entsoe_data(
         right_index=True,
     )
 
+    df.index = df.index.tz_convert("UTC")
+
     return df
