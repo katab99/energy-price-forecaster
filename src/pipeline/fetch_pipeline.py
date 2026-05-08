@@ -4,11 +4,33 @@ from data_sources.energy import get_entsoe_data
 from data_sources.weather import get_weather_data
 
 
-def main():
+def fetch_pipeline(start, end, country_code, timezone, url, params) -> None:
+    # Single location in request and response for now
+    df_weather = get_weather_data(url, params, "hourly")[0]
+    df_weather.to_parquet("data/raw/weather.parquet")
+    print("Weather data fetched and saved to data/raw/weather.parquet")
+
+    start_date = pd.Timestamp(start, tz=timezone)
+    end_date = pd.Timestamp(end, tz=timezone)
+
+    assert isinstance(start_date, pd.Timestamp)
+    assert isinstance(end_date, pd.Timestamp)
+
+    df_energy = get_entsoe_data(country_code, start_date, end_date)
+    df_energy.to_parquet("data/raw/entsoe.parquet")
+    print("Energy data fetched and saved to data/raw/entsoe.parquet")
+
+    df = df_energy.merge(df_weather, left_index=True, right_index=True)
+    df.to_parquet("data/raw/merged.parquet")
+    print("Merged data saved to data/raw/merged.parquet")
+
+
+if __name__ == "__main__":
     start = "2022-01-01"
     end = "2026-05-01"
+    timezone = "Europe/Copenhagen"
+    country_code = "DK_1"
 
-    # Get weather data
     url = "https://historical-forecast-api.open-meteo.com/v1/forecast"
 
     lat = -56.0
@@ -29,25 +51,4 @@ def main():
         ],
     }
 
-    df_weather = get_weather_data(url, params, "hourly")
-
-    for item in df_weather:
-        print(item)
-        item.to_parquet("data/raw/weather.parquet")
-
-    # Get energy data
-    start_date = pd.Timestamp(start, tz="Europe/Copenhagen")
-    end_date = pd.Timestamp(end, tz="Europe/Copenhagen")
-    country_code = "DK_1"
-
-    assert isinstance(start_date, pd.Timestamp)
-    assert isinstance(end_date, pd.Timestamp)
-
-    df_energy = get_entsoe_data(country_code, start_date, end_date)
-    df_energy.to_parquet("data/raw/entsoe.parquet")
-
-    pass
-
-
-if __name__ == "__main__":
-    main()
+    fetch_pipeline(start, end, country_code, timezone, url, params)
