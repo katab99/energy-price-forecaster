@@ -28,6 +28,8 @@ def extract_response(response: WeatherApiResponse, specs: VariableSpec) -> pd.Da
         ),
     )
 
+    hourly_dataframe.set_index("date", inplace=True)
+
     return hourly_dataframe
 
 
