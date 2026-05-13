@@ -8,10 +8,11 @@ load_dotenv()
 
 
 def get_entsoe_data(
-    country_code: str, start: pd.Timestamp, end: pd.Timestamp
+    country_code: str,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
 ) -> pd.DataFrame:
     client = EntsoePandasClient(api_key=f"{os.getenv('ENTSOE_KEY')}")
-    country_code = country_code
 
     prices = client.query_day_ahead_prices(
         country_code=country_code, start=start, end=end
