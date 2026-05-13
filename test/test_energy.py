@@ -8,7 +8,6 @@ from data_sources.energy import get_entsoe_data
 
 @pytest.fixture
 def mock_entsoe_client(mocker):
-    # Mock the EntsoePandasClient and its methods
     mock_client = mocker.MagicMock()
     mocker.patch("data_sources.energy.EntsoePandasClient", return_value=mock_client)
     return mock_client
@@ -48,7 +47,6 @@ def get_entsoe_data_empty(mock_entsoe_client, mocker):
     start = pd.Timestamp("2023-01-01", tz="Europe/Berlin")
     end = pd.Timestamp("2023-01-02", tz="Europe/Berlin")
 
-    # Mock empty DataFrames
     mock_entsoe_client.query_day_ahead_prices.return_value = pd.Series()
     mock_entsoe_client.query_load.return_value = pd.DataFrame()
 
